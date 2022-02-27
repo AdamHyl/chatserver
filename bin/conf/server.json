@@ -1,0 +1,11 @@
+{
+  "LogLevel": "debug",
+  "LogPath": "",
+  "ClientTCPAddr": "0.0.0.0:3063",
+  "MaxConnNum": 10000,
+  "PlayerInteractiveTime": 1200,
+  "HistoryNum": 50,
+  "RoomNum": 10,
+  "MsgMaxLen":50,
+  "PopularCheckMinute": 10
+}
