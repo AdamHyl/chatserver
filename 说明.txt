@@ -1,0 +1,26 @@
+﻿1.部署方式：
+go build github.com/AdamHyl/chatserver
+将生成的执行程序放入bin目录即可运行。
+bin/conf/server.json 有一系统配置，意义详见json.go
+
+服务器是借鉴github.com/name5566/leaf框架。log和timer是使用的该库，时间相对紧，这两轮子就不重写了。
+使用了bson库生成一个唯一ID。
+主要设计思想是，每个玩家一个连接，并拥有1个网络读goroutine和一个网络写goroutine。
+所有业务逻辑都在一个主goroutine上执行，避免多goroutine之间数据竞争，减少逻辑开发复杂度。
+其中屏蔽词主要采用的是ac自动机算法。
+玩家数据和名字唯一性其实应该放在数据库中的，时间相对不够，所以没有实现
+todo也是时间不够没有去实现的
+
+2，客户端是github.com/AdamHyl/chatclient
+ go build github.com/AdamHyl/chatclient可生成执行文件
+执行方式：./client.exe -ip 127.0.0.1 -port 8888
+
+客户端使用方式：
+在输出“set name ok”前按提示输入即可
+名字设置成功会随机加入一个房间。
+之后有以下几种输入方式(双引号中的内容)
+a."3" 显示房间列表
+b."4 房间号" 进入指定房间 
+c."5 /stats 玩家名" 查询玩家信息
+d."5 /popular 房间ID" 查询10分钟内房间最经常使用词汇
+e.其他任何输入都认定为房间聊天
