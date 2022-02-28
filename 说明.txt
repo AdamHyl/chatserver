@@ -1,3 +1,6 @@
+功能全部实现，功能测试完成。细节测试不充分，性能未测试。
+
+
 ﻿1.部署方式：
 go build github.com/AdamHyl/chatserver
 将生成的执行程序放入bin目录即可运行。
@@ -8,8 +11,14 @@ bin/conf/server.json 有一系统配置，意义详见json.go
 主要设计思想是，每个玩家一个连接，并拥有1个网络读goroutine和一个网络写goroutine。
 所有业务逻辑都在一个主goroutine上执行，避免多goroutine之间数据竞争，减少逻辑开发复杂度。
 其中屏蔽词主要采用的是ac自动机算法。
+
+相对欠缺的点：
 玩家数据和名字唯一性其实应该放在数据库中的，时间相对不够，所以没有实现
-todo也是时间不够没有去实现的
+数据传输目前用的字符串。可以改成二进制。使用protobuf协议。协议还需要加密，压缩等。
+比较耗时的逻辑异步出主goroutine
+协议发送频率限制，避免客户端请求过快，防ddos
+代码中todo也是时间不够没有去实现的。包括一些主协成内的函数执行recover，函数执行超时等
+
 
 2，客户端是github.com/AdamHyl/chatclient
  go build github.com/AdamHyl/chatclient可生成执行文件
